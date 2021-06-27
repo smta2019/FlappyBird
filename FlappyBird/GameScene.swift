@@ -15,11 +15,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0
     var scoreLabelNode: SKLabelNode!
     var bestScoreLabelNode: SKLabelNode!
+    var itemNode: SKNode! //追加
     
     let birdCategory: UInt32 = 1 << 0
     let groundCategory: UInt32 = 1 << 1
     let wallCategory: UInt32 = 1 << 2
     let scoreCategory: UInt32 = 1 << 3
+    let itemCategory: UInt32 = 1 << 4
     let userDefaults: UserDefaults = UserDefaults.standard
 
     
@@ -38,10 +40,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallNode = SKNode()
         scrollNode.addChild(wallNode)
         
+        itemNode = SKNode() // 追加
+        scrollNode.addChild(itemNode) // 追加
+        
         setupGround()
         setupCloud()
         setupWall()
         setupBird()
+        setupItem() // 追加
         
         setScoreLabel()
     }
@@ -202,11 +208,69 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         bird.physicsBody?.categoryBitMask = birdCategory
         bird.physicsBody?.collisionBitMask = groundCategory | wallCategory
-        bird.physicsBody?.contactTestBitMask = groundCategory | wallCategory
+        bird.physicsBody?.contactTestBitMask = groundCategory | wallCategory | itemCategory
         
         bird.run(flap)
         
         addChild(bird)
+    }
+    
+    func setupItem() {
+        let itemTexture = SKTexture(imageNamed: "＊＊＊＊（アイテム）")
+        itemTexture.filteringMode = .linear
+        
+        let movingDistance = CGFloat(self.frame.size.width + itemTexture.size().width)
+        
+        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 4)
+        
+        let removeItem = SKAction.removeFromParent()
+        
+        let itemAnimation = SKAction.sequence([moveItem,removeItem])
+        
+        let itemSize = SKTexture(imageNamed: "bird_a").size()
+        
+        let groundSize = SKTexture(imageNamed: "ground").size()
+        
+        let random_y_range = self.frame.height - groundSize.height
+
+        
+        let createItemAnimation = SKAction.run({
+            let item = SKNode()
+            
+            item.position = CGPoint(x: self.frame.width + itemTexture.size().width / 2, y: 0)
+            item.zPosition = -50
+            
+            let random_y = CGFloat.random(in: groundSize.height..<random_y_range)
+            
+            
+            let itemInfo = SKSpriteNode(texture: itemTexture)
+            itemInfo.position = CGPoint(x: 0, y: random_y)
+            itemInfo.physicsBody = SKPhysicsBody(rectangleOf: itemTexture.size())
+            itemInfo.physicsBody?.isDynamic = false
+            
+            item.addChild(itemInfo)
+            
+
+            
+            let scoreNode = SKNode()
+            scoreNode.position = CGPoint(x: itemInfo.size.width + itemSize.width / 2, y: self.frame.height)
+            scoreNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: itemInfo.size.width, height: self.frame.size.height))
+            scoreNode.physicsBody?.isDynamic = false
+            scoreNode.physicsBody?.categoryBitMask = self.itemCategory
+            scoreNode.physicsBody?.contactTestBitMask = self.birdCategory
+            
+            
+            item.run(itemAnimation)
+            
+            self.itemNode.addChild(item)
+        })
+        
+        let waitAnimation = SKAction.wait(forDuration: 2)
+        
+        let repeatForeverAnimation = SKAction.repeatForever(SKAction.sequence([createItemAnimation, waitAnimation]))
+        
+        itemNode.run(repeatForeverAnimation)
+        
     }
     
     func setScoreLabel() {
@@ -245,8 +309,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if scrollNode.speed <= 0 {
             return
         }
-        
-        if (contact.bodyA.categoryBitMask & scoreCategory) == scoreCategory || (contact.bodyB.categoryBitMask & scoreCategory) == scoreCategory {
+        if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
+            print("itemGet")
+            score += 10
+            scoreLabelNode.text = "Score:\(score)"
+            
+            contact.bodyA.node?.removeFromParent()
+//            contact.bodyB.node?.removeFromParent()
+//
+//            if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory {
+//                contact.bodyA.node?.removeFromParent()
+//            }
+//            if (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
+//                contact.bodyB.node?.removeFromParent()
+//            }
+            
+        } else if (contact.bodyA.categoryBitMask & scoreCategory) == scoreCategory || (contact.bodyB.categoryBitMask & scoreCategory) == scoreCategory {
             print("ScoreUp")
             score += 1
             scoreLabelNode.text = "Score:\(score)"
