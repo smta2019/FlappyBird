@@ -14,6 +14,7 @@
 		E047000E265BE083000E27AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E047000D265BE083000E27AC /* Assets.xcassets */; };
 		E0470011265BE083000E27AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E047000F265BE083000E27AC /* LaunchScreen.storyboard */; };
 		E0470020265BE616000E27AC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047001F265BE616000E27AC /* GameScene.swift */; };
+		E04A97E0268DDCD80061FD5A /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E04A97DF268DDCD80061FD5A /* sound.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		E0470010265BE083000E27AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E0470012265BE083000E27AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E047001F265BE616000E27AC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E04A97DF268DDCD80061FD5A /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				E047001F265BE616000E27AC /* GameScene.swift */,
 				E047000A265BE082000E27AC /* Main.storyboard */,
 				E047000D265BE083000E27AC /* Assets.xcassets */,
+				E04A97DF268DDCD80061FD5A /* sound.mp3 */,
 				E047000F265BE083000E27AC /* LaunchScreen.storyboard */,
 				E0470012265BE083000E27AC /* Info.plist */,
 			);
@@ -127,6 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E04A97E0268DDCD80061FD5A /* sound.mp3 in Resources */,
 				E0470011265BE083000E27AC /* LaunchScreen.storyboard in Resources */,
 				E047000E265BE083000E27AC /* Assets.xcassets in Resources */,
 				E047000C265BE082000E27AC /* Main.storyboard in Resources */,
