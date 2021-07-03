@@ -308,7 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
             print("itemGet")
             itemScore += 1
-            itemScoreLabelNode.text = "Score:\(itemScore)"
+            itemScoreLabelNode.text = "Item Score:\(itemScore)"
             run(sound)
             
             if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory {
