@@ -226,7 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let movingDistance = CGFloat(self.frame.size.width + itemTexture.size().width)
         
-        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 2)
+        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 4)
         
         let removeItem = SKAction.removeFromParent()
         
@@ -252,7 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.itemNode.addChild(item)
         })
         
-        let waitAnimation = SKAction.wait(forDuration: 2)
+        let waitAnimation = SKAction.wait(forDuration: 1)
         
         let repeatForeverAnimation = SKAction.repeatForever(SKAction.sequence([createItemAnimation, waitAnimation]))
         
