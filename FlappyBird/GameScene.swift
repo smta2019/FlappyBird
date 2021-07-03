@@ -226,13 +226,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let movingDistance = CGFloat(self.frame.size.width + itemTexture.size().width)
         
-        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 4)
+        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 2)
         
         let removeItem = SKAction.removeFromParent()
         
         let itemAnimation = SKAction.sequence([moveItem,removeItem])
-        
-        let itemSize = SKTexture(imageNamed: "bitcoin").size()
         
         let groundSize = SKTexture(imageNamed: "ground").size()
         
@@ -240,28 +238,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let createItemAnimation = SKAction.run({
             let item = SKSpriteNode(texture: itemTexture)
-            
-            item.position = CGPoint(x: self.frame.width + itemTexture.size().width / 2, y: 0)
-            item.zPosition = -50
-            
             let random_y = CGFloat.random(in: groundSize.height..<random_y_range)
-            
-            
-//            let item = SKSpriteNode(texture: itemTexture)
-//            item.position = CGPoint(x: 0, y: random_y)
-            item.physicsBody = SKPhysicsBody(rectangleOf: itemTexture.size())
-            item.physicsBody?.isDynamic = false
-            
-            item.addChild(item)
+            item.zPosition = -50
 
-            
-//            let itemScoreNode = SKNode()
-//            itemScoreNode.position = CGPoint(x: item.size.width + itemSize.width / 2, y: self.frame.height)
-//            itemScoreNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: item.size.width, height: self.frame.size.height))
-//            itemScoreNode.physicsBody?.isDynamic = false
+            item.position = CGPoint(x: self.frame.width, y: random_y)
+            item.physicsBody = SKPhysicsBody(rectangleOf: itemTexture.size())
             item.physicsBody?.categoryBitMask = self.itemCategory
-//            itemScoreNode.physicsBody?.contactTestBitMask = self.birdCategory
-            
+            item.physicsBody?.isDynamic = false
+            item.physicsBody?.categoryBitMask = self.itemCategory
             
             item.run(itemAnimation)
             
